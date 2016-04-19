@@ -172,10 +172,20 @@
 
 ;; melpaを使用可能にする
 ;; M-x list-packages で一覧表示
+(progn
+  (switch-to-buffer
+   (url-retrieve-synchronously
+    "https://raw.github.com/milkypostman/melpa/master/melpa.el"))
+    (package-install-from-buffer  (package-buffer-info) 'single))
+
 (require 'package)
+;; Add package-archives
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")) ; ついでにmarmaladeも追加
+;; Initialize
 (package-initialize)
+;; melpa.el
+(require 'melpa)
 
 ;; emacs版easy-motion
 ;; (prelude-require-package 'ace-jump-mode)
