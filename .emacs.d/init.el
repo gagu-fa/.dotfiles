@@ -164,10 +164,10 @@
 
 ;;テーマの保存
 ;;色とか
-(load-theme 'wombat t)
-(set-face-foreground 'font-lock-comment-face "red")
+;;(load-theme 'wombat t)
+;;(set-face-foreground 'font-lock-comment-face "red")
 ;;(set-face-foreground 'font-lock-comment-delimiter-face "red")
-(set-face-background 'default "black")
+;;(set-face-background 'default "black")
 
 
 ;; melpaを使用可能にする
