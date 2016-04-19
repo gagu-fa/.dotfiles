@@ -93,7 +93,6 @@
 
 ;; 色を変更する
 (set-face-foreground 'minibuffer-prompt "skyblue")
-(set-face-foreground 'compilation-column-number "gray")
 (set-face-foreground 'shadow "yellow")
 
 ;; カーソル行に下線
