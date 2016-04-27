@@ -1,9 +1,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; emacs-pervasives ver. 1.00
+;; emacs 24以上推奨
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Include ~/.emacs.d/lisp in the load path
-;; ~/.emacs.d下に入れたファイルをload,require等で読み込めるようにする
-(setq load-path (cons "~/.emacs.d/lisp" load-path))
+;; ~/.emacs.d以下に入れたファイルをload,require等で読み込めるようにする
+
+(let ((default-directory (expand-file-name "~/.emacs.d/lisp/")))
+  (add-to-list 'load-path default-directory)
+  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+      (normal-top-level-add-subdirs-to-load-path)))
 
 ;; Do not show startup messages
 ;; 起動時に表示されるメッセージ, *scratch*バッファのメッセージ等を表示しない
@@ -39,14 +43,6 @@
 ;; 範囲選択中にバックスペースで選択範囲を削除する
 (delete-selection-mode t)
 
-;; Show line number
-;; 行番号を(常に)表示する
-(require 'linum)
-(global-linum-mode)
-;; linumが軽くなる
-(setq linum-delay t)
-(defadvice linum-schedule (around my-linum-schedule () activate)
-  (run-with-idle-timer 0.2 nil #'linum-update-current))
 
 ;; Highlight the current line
 ;; カーソル位置の行をハイライトする
@@ -125,9 +121,6 @@
 ;(setq windmove-wrap-around t)
 ;(windmove-default-keybindings)
 
-;undo-tree-mode
-(require 'undo-tree)
-(global-undo-tree-mode)
 
 ;; C-hでカーソルの前を削除
 (global-set-key "\C-h" 'delete-backward-char)
@@ -162,26 +155,62 @@
   `((".*", (expand-file-name "~/.emacs.d/backup/") t)))
 
 
+
+;; 以下はEmacs 24以上でないとだめ
+
 ;;テーマの保存
 ;;色とか
-;;(load-theme 'wombat t)
-;;(set-face-foreground 'font-lock-comment-face "red")
-;;(set-face-foreground 'font-lock-comment-delimiter-face "red")
-;;(set-face-background 'default "black")
-
+(load-theme 'wombat t)
+(set-face-foreground 'font-lock-comment-face "red")
+(set-face-foreground 'font-lock-comment-delimiter-face "red")
+(set-face-background 'default "black")
 
 ;; melpaを使用可能にする
 ;; M-x list-packages で一覧表示
-;; Emacs 24.3以上？
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (package-initialize)
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
+
+;; パッケージインストール
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(defvar elpa-packages
+  '(
+    linum
+    undo-tree
+    auto-complete
+    ace-jump-mode
+    ))
+
+(dolist (p elpa-packages)
+  (when (not (package-installed-p p))
+        (package-install p)))
+
+
+;; Show line number
+;; 行番号を(常に)表示する
+(require 'linum)
+(global-linum-mode)
+;; linumが軽くなる
+(setq linum-delay t)
+(defadvice linum-schedule (around my-linum-schedule () activate)
+  (run-with-idle-timer 0.2 nil #'linum-update-current))
+
+;; undo-tree-mode
+(require 'undo-tree)
+(global-undo-tree-mode)
+
+;; auto-complete
+;; 補完メニュー表示時にC-n/C-pで補完候補選択
+(require 'auto-complete-config)
+(ac-config-default)
+(ac-set-trigger-key "TAB")
+(setq ac-use-menu-map t)
 
 
 ;; emacs版easy-motion
-;; (prelude-require-package 'ace-jump-mode)
-;; (require 'ace-jump-mode)
-;; (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-
+(require 'ace-jump-mode)
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
