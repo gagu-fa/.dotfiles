@@ -95,18 +95,18 @@
 (setq hl-line-face 'underline)
 (global-hl-line-mode)
 
-; コピペが普通にできるように
-(defun copy-from-osx ()
- (shell-command-to-string "pbpaste"))
+;; コピペが普通にできるように
+;;(defun copy-from-osx ()
+;; (shell-command-to-string "pbpaste"))
 
-(defun paste-to-osx (text &optional push)
- (let ((process-connection-type nil))
-     (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-       (process-send-string proc text)
-       (process-send-eof proc))))
+;;(defun paste-to-osx (text &optional push)
+;; (let ((process-connection-type nil))
+;;     (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+;;       (process-send-string proc text)
+;;       (process-send-eof proc))))
 
-(setq interprogram-cut-function 'paste-to-osx)
-(setq interprogram-paste-function 'copy-from-osx)
+;;(setq interprogram-cut-function 'paste-to-osx)
+;;(setq interprogram-paste-function 'copy-from-osx)
 
 
 ;; マウス操作ができる
@@ -182,6 +182,8 @@
     undo-tree
     auto-complete
     ace-jump-mode
+    php-mode
+    js2-mode
     ))
 
 (dolist (p elpa-packages)
@@ -209,8 +211,16 @@
 (ac-set-trigger-key "TAB")
 (setq ac-use-menu-map t)
 
-
 ;; emacs版easy-motion
 (require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+;; php-mode
+(require 'php-mode)
+
+;;;js2-modeの設定
+(require 'js2-mode)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; js2モードでのインデントを2に
+(setq js2-basic-offset 2)
 
