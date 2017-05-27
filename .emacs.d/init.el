@@ -215,11 +215,9 @@
 (ac-set-trigger-key "TAB")
 (setq ac-use-menu-map t)
 
-
 ;; emacs版easy-motion
 (require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-
 
 ;; php-mode
 ;; (require 'php-mode)
@@ -236,16 +234,13 @@
 ;; C-hで前の文字削除
 (define-key helm-map (kbd "C-h") 'delete-backward-char)
 (define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
-;; key bing
-(define-key global-map (kbd "C-x b") 'helm-buffers-list)
+;; キーバインド
+(define-key global-map (kbd "C-x b")   'helm-buffers-list)
 (define-key global-map (kbd "C-x b") 'helm-for-files)
 (define-key global-map (kbd "C-x C-f") 'helm-find-files)
-(define-key global-map (kbd "M-x") 'helm-M-x)
-(define-key global-map (kbd "M-y") 'helm-show-kill-ring)
+(define-key global-map (kbd "M-x")     'helm-M-x)
+(define-key global-map (kbd "M-y")     'helm-show-kill-ring)
 ;; For find-file etc.
 (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+;; For helm-find-files etc.
 (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
-
-;; sql-mode
-(setq sql-indent-offset 2)
-(eval-after-load "sql" '(load-library "sql-indent"))
