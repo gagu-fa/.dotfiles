@@ -96,31 +96,32 @@
 (global-hl-line-mode)
 
 ; コピペが普通にできるように
-(defun copy-from-osx ()
- (shell-command-to-string "pbpaste"))
+(when (eq system-type 'darwin)
+  (defun copy-from-osx ()
+    (shell-command-to-string "pbpaste"))
 
-(defun paste-to-osx (text &optional push)
- (let ((process-connection-type nil))
-     (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-       (process-send-string proc text)
-       (process-send-eof proc))))
+  (defun paste-to-osx (text &optional push)
+    (let ((process-connection-type nil))
+      (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+	(process-send-string proc text)
+	(process-send-eof proc))))
 
-(setq interprogram-cut-function 'paste-to-osx)
-(setq interprogram-paste-function 'copy-from-osx)
+  (setq interprogram-cut-function 'paste-to-osx)
+  (setq interprogram-paste-function 'copy-from-osx)
+)
 
 
 ;; マウス操作ができる
 ;; ホイールマウス
 (setq mouse-wheel-follow-mouse t)
 (xterm-mouse-mode t)
-(mouse-wheel-mode t)
+;; (mouse-wheel-mode t)
 (global-set-key   [mouse-4] '(lambda () (interactive) (scroll-down 1)))
 (global-set-key   [mouse-5] '(lambda () (interactive) (scroll-up   1)))
 
 ;バッファ移動がshift+矢印に
 ;(setq windmove-wrap-around t)
 ;(windmove-default-keybindings)
-
 
 ;; C-hでカーソルの前を削除
 (global-set-key "\C-h" 'delete-backward-char)
@@ -182,6 +183,11 @@
     undo-tree
     auto-complete
     ace-jump-mode
+    php-mode
+    js2-mode
+    helm
+    sql-indent
+    markdown-mode
     ))
 
 (dolist (p elpa-packages)
@@ -214,3 +220,32 @@
 (require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
+
+;; php-mode
+;; (require 'php-mode)
+
+;; js2-mode
+(require 'js2-mode)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; indent
+(setq js2-basic-offset 2)
+
+;; helm
+(require 'helm-config)
+(helm-mode 1)
+;; C-hで前の文字削除
+(define-key helm-map (kbd "C-h") 'delete-backward-char)
+(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+;; key bing
+(define-key global-map (kbd "C-x b") 'helm-buffers-list)
+(define-key global-map (kbd "C-x b") 'helm-for-files)
+(define-key global-map (kbd "C-x C-f") 'helm-find-files)
+(define-key global-map (kbd "M-x") 'helm-M-x)
+(define-key global-map (kbd "M-y") 'helm-show-kill-ring)
+;; For find-file etc.
+(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+
+;; sql-mode
+(setq sql-indent-offset 2)
+(eval-after-load "sql" '(load-library "sql-indent"))

@@ -1,0 +1,7 @@
+.emacs.d/auto-save-list
+.emacs.d/backup/*
+!.emacs.d/backup/empty.txt
+.emacs.d/elpa
+.emacs.d/lisp/*
+!.emacs.d/lisp/empty.txt
+.emacs.d/ac-comphist.dat

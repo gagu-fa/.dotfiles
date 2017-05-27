@@ -1,0 +1,11 @@
+# like emacs
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-d> <Del>
+inoremap <C-k> <c-o>D
+inoremap <C-/> <c-o>u
+inoremap <C-y> <c-o>P
