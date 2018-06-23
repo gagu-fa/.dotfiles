@@ -1,4 +1,3 @@
-# like emacs
 inoremap <C-p> <Up>
 inoremap <C-n> <Down>
 inoremap <C-b> <Left>

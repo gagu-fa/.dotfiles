@@ -1,5 +1,7 @@
 escape ^Oa
 
+defscrollback 10000
+
 caption always "%{= wk} %-w%{=bu dr} %n %t %{-}%+w%-22=%{= .k}[%Y-%m-%d %c:%s]"
 
 term screen-256color
